@@ -1,0 +1,79 @@
+{% from "bootstrap5/form.html" import render_form %}
+{% block content %}
+{% include "header.html" %}
+
+<main class="container my-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="h3">Solicitudes</h1>
+        <div>
+            {% if current_user.role == 'cliente' %}
+            <a class="btn btn-primary shadow-sm me-2" href="{{ url_for('dashboard.nueva_solicitud') }}">
+                ➕ Nueva Solicitud
+            </a>
+            {% endif %}
+            <a class="btn btn-secondary shadow-sm" href="">
+                📄 Mis Solicitudes
+            </a>
+        </div>
+    </div>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    {% for category, message in messages %}
+    <div class="alert alert-{{ category }} alert-dismissible fade show text-center" role="alert">
+        {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {% endfor %}
+    {% endif %}
+    {% endwith %}
+    <div class="row">
+        {% for solicitud in solicitudes %}
+        <div class="col-md-6 col-lg-4 mb-4">
+            <div class="card shadow-sm h-100 border-0">
+                <div class="card-body">
+                    <h5 class="card-title fw-bold">📄 Solicitud #{{ solicitud.id }}</h5>
+                    <p class="mb-1"><strong>Origen:</strong> {{ solicitud.origen }}</p>
+                    <p class="mb-1"><strong>Destino:</strong> {{ solicitud.destino }}</p>
+                    <p class="mb-1"><strong>Urgencia:</strong>
+                        <span class="badge 
+                            {% if solicitud.urgencia == 'Alta' %}
+                                bg-danger
+                            {% elif solicitud.urgencia == 'Media' %}
+                                bg-warning text-dark
+                            {% else %}
+                                bg-success
+                            {% endif %}
+                        ">
+                            {{ solicitud.urgencia }}
+                        </span>
+                    </p>
+                    <p class="mb-0"><strong>Estado:</strong>
+                        {% if solicitud.entregado %}
+                        <span class="badge bg-success">✅ Entregado</span>
+                        {% else %}
+                        <span class="badge bg-secondary">⏳ Pendiente</span>
+                        {% endif %}
+                    </p>
+                    {% if current_user.role == 'cliente' %}
+                    <a href="{{ url_for('dashboard.eliminar_solicitud', solicitud_id=solicitud.id) }}"
+                        class="btn btn-danger mt-3">Eliminar Solicitud {{ solicitud.id }}</a>
+                    {% endif %}
+                    {% if current_user.role == 'motociclista' and not solicitud.entregado and not
+                    solicitud.motociclista_id %}
+                    <a href="{{ url_for('dashboard.aceptar_solicitud', solicitud_id=solicitud.id) }}"
+                        class="btn btn-success mt-3">
+                        Aceptar Solicitud
+                    </a>
+                    {% endif %}
+                    <a href="{{ url_for('dashboard.ver_detalles', solicitud_id=solicitud.id) }}"
+                        class="btn btn-info mt-3">Ver
+                        Detalles</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</main>
+
+
+{% include "footer.html" %} {% endblock %}

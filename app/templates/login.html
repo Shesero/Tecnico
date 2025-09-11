@@ -1,0 +1,37 @@
+{% from "bootstrap5/form.html" import render_form %}
+{% block content %}
+{% include "header.html" %}
+
+<main class="d-flex align-items-center justify-content-center vh-100 bg-light">
+    <div class="card shadow p-4" style="max-width: 400px; width: 100%;">
+        <div class="text-center mb-4">
+            <img src="../static/assets/user-interface.png" alt="Logo" width="72" height="72" class="mb-3">
+            <h1 class="h4 fw-bold">Bienvenido</h1>
+            <p class="text-muted">Por favor ingrese sus credenciales</p>
+        </div>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+        {% for category, message in messages %}
+        <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        {% endfor %}
+        {% endif %}
+        {% endwith %}
+
+        <form method="POST">
+            {{ render_form(form, novalidate=True, button_map={"submit": "primary"}) }}
+        </form>
+
+        <div class="text-center mt-3">
+            <small class="text-muted">¿No tienes cuenta? <a href="{{ url_for('auth.registro') }}">Regístrate</a></small>
+        </div>
+    </div>
+</main>
+
+
+
+
+{% include "footer.html" %} {% endblock %}

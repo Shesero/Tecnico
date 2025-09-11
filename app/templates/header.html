@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projecto Test</title>
+    {% block styles %}
+    {{ bootstrap.load_css() }}
+    <!-- Font Awesome icons (free version)-->
+    <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+    <!-- Google fonts-->
+    <link href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet"
+        type="text/css" />
+    <link
+        href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800"
+        rel="stylesheet" type="text/css" />
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet" />
+    {% endblock %}
+</head>
+
+<body>
+    {% if current_user.is_authenticated %}
+    <header
+        class="container d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 ">
+        <a href="/" class="d-flex align-items-center col-md-3 mb-2 mb-md-0 text-dark text-decoration-none">
+            <img src="../static/assets/user-interface.png" alt="Logo" width="74" height="74">
+        </a>
+
+        <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
+            <li><a href="" class="nav-link px-2 link-dark">
+                    <h1>Bienvenido {{ current_user.role }}</h1>
+                </a></li>
+        </ul>
+
+        <div class="col-md-3 text-end">
+            <a class="btn btn-primary" href="{{ url_for('auth.logout') }}">Logout</a>
+        </div>
+    </header>
+    {% else %}
+    {% endif %}
+
+
+
+</html>

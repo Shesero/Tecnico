@@ -1,0 +1,32 @@
+{% include "header.html" %}
+
+<main class="container my-5">
+    <h1 class="h3 mb-4">Detalles de la Solicitud #{{ solicitud.id }}</h1>
+    <div class="card shadow-sm border-0">
+        <div class="card-body">
+            <p class="card-text"><strong>Origen:</strong> {{ solicitud.origen }}</p>
+            <p class="card-text"><strong>Destino:</strong> {{ solicitud.destino }}</p>
+            <p class="card-text"><strong>Urgencia:</strong> {{ solicitud.urgencia }}</p>
+            <p class="card-text"><strong>Motociclista:</strong>
+                {% if solicitud.motorizado_id %}
+                Asignado
+                {% else %}
+                No asignado
+                {% endif %}
+            </p>
+            <p class="card-text"><strong>Entrega:</strong> {% if solicitud.entregado %} Entregado {% else %} Pendiente
+                {% endif %}</p>
+            <p class="card-text"><strong>Imagen Entregada:</strong>
+                {% if solicitud.imagen_entrega %}
+                {{ solicitud.imagen_entrega }}
+                {% else %}
+                No hay imagen
+                {% endif %}
+            </p>
+            <a href="{{ url_for('dashboard.dashboard_home') }}" class="btn btn-secondary">Volver</a>
+        </div>
+    </div>
+
+</main>
+
+{% include "footer.html" %}
