@@ -2,9 +2,11 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_bootstrap import Bootstrap5
 from flask_login import LoginManager
+from flask_migrate import Migrate
 import os 
 
 db = SQLAlchemy()
+migrate = Migrate()
 login_manager = LoginManager()
 login_manager.login_view = 'auth.login'  # apúntalo al blueprint de login
 
@@ -21,6 +23,7 @@ def create_app():
 
     db.init_app(app)
     login_manager.init_app(app)
+    migrate.init_app(app, db)
     Bootstrap5(app)
 
     from app.models import User
@@ -40,8 +43,5 @@ def create_app():
     app.register_blueprint(auth)
     app.register_blueprint(dashboard)
     app.register_blueprint(core)
-
-    with app.app_context():
-        db.create_all()
 
     return app

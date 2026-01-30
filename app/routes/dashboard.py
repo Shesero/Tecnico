@@ -3,6 +3,7 @@ from flask_login import login_required, current_user
 from app.models import Solicitud, db
 from app.forms import SolicitudForm
 
+
 dashboard = Blueprint('dashboard', __name__)
 
 # Todo Desarrollo Del Panel De Control
@@ -36,7 +37,7 @@ def nueva_solicitud():
 @dashboard.route('/eliminar_solicitud/<int:solicitud_id>', methods=["POST", "GET"])
 @login_required
 def eliminar_solicitud(solicitud_id):
-    solicitud = Solicitud.query.get(solicitud_id)
+    solicitud = Solicitud.query.get_or_404(solicitud_id)
     if not solicitud:
         flash("Solicitud no encontrada", "danger")
         return redirect(url_for('dashboard'))
