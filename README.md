@@ -36,4 +36,4 @@ flask run
 
 ## Deploy
 
-https://tuproyecto.onrender.com
+[https://Tecnico.onrender.com](https://tecnico-j8wv.onrender.com/login)
